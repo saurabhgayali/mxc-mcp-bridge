@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a2c">
+  <meta name="description" content="MCP-MXC bridges AI coding assistants with policy-driven, native OS execution containers for controlled code execution and debugging.">
+  <title>MCP-MXC — Sandboxed Execution for AI Agents</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b1220;
+      --panel: #111c2f;
+      --panel-2: #15243a;
+      --text: #edf3ff;
+      --muted: #a5b4ca;
+      --line: rgba(176, 198, 228, .16);
+      --accent: #72e0c0;
+      --accent-2: #8cb8ff;
+      --max: 1160px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: radial-gradient(ellipse at 75% 0%, #182c4a 0, transparent 38%), var(--bg);
+      color: var(--text); font: 16px/1.65 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+    .wrap { width: min(var(--max), calc(100% - 40px)); margin: auto; }
+    .nav { display:flex; align-items:center; justify-content:space-between; gap:24px; min-height:78px; border-bottom:1px solid var(--line); }
+    .brand { display:flex; align-items:center; gap:12px; font-weight:750; letter-spacing:-.03em; }
+    .brand-mark { width:36px; height:36px; display:grid; place-items:center; border-radius:11px; color:#07151b; background:var(--accent); font-size:19px; font-weight:900; }
+    .nav-links { display:flex; gap:25px; align-items:center; color:var(--muted); font-size:14px; }
+    .nav-links a:hover { color:var(--text); }
+    .nav-cta, .button { display:inline-flex; align-items:center; justify-content:center; gap:9px; border:1px solid var(--line); border-radius:10px; padding:11px 16px; font-weight:700; font-size:14px; transition:transform .18s, background .18s; }
+    .nav-cta:hover, .button:hover { transform:translateY(-2px); }
+    .button.primary { background:var(--accent); color:#082019; border-color:transparent; }
+    .button.secondary { background:rgba(255,255,255,.035); }
+    .hero { display:grid; grid-template-columns:1.08fr .92fr; gap:54px; align-items:center; padding:92px 0 82px; }
+    .eyebrow { display:inline-flex; align-items:center; gap:9px; color:var(--accent); font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.14em; }
+    .dot { width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 14px #72e0c0aa; }
+    h1 { font-size:clamp(42px, 5.7vw, 70px); line-height:1.04; letter-spacing:-.055em; margin:22px 0; max-width:700px; }
+    h1 span { color:var(--accent); }
+    .hero-copy { max-width:590px; color:var(--muted); font-size:18px; line-height:1.75; }
+    .actions { display:flex; flex-wrap:wrap; gap:12px; margin:30px 0 27px; }
+    .meta { color:#8193ad; font-size:13px; display:flex; flex-wrap:wrap; gap:18px; }
+    .meta span::before { content:"✓"; color:var(--accent); margin-right:7px; }
+    .terminal { overflow:hidden; border:1px solid rgba(172,197,230,.23); border-radius:18px; background:#080e18; box-shadow:0 28px 90px #0005; transform:rotate(.5deg); }
+    .terminal-top { display:flex; align-items:center; gap:7px; padding:15px 17px; border-bottom:1px solid #ffffff12; color:#8ea0ba; font-size:12px; }
+    .traffic { width:9px; height:9px; border-radius:50%; background:#ff7d78; } .traffic:nth-child(2){background:#f8c76a}.traffic:nth-child(3){background:#72d6a1}
+    .terminal-title { margin-left:auto; }
+    pre { margin:0; padding:25px 24px 28px; overflow:auto; color:#dce8f8; font:13px/1.9 ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .comment { color:#70849f; } .key { color:#8cb8ff; } .value { color:#72e0c0; } .warn { color:#f5c875; }
+    .terminal-footer { display:flex; justify-content:space-between; gap:12px; border-top:1px solid #ffffff12; padding:12px 17px; color:#7f94b0; font-size:11px; }
+    .status { color:var(--accent); }
+    .trust-strip { border-block:1px solid var(--line); padding:21px 0; }
+    .trust-inner { display:flex; flex-wrap:wrap; justify-content:space-between; gap:15px 30px; color:#b0bfd3; font-size:13px; }
+    .trust-inner span { display:flex; align-items:center; gap:9px; }
+    .trust-inner b { color:var(--text); font-weight:650; }
+    section { padding:82px 0; }
+    .section-head { max-width:680px; margin-bottom:35px; }
+    .section-head h2 { margin:12px 0; font-size:clamp(30px, 4vw, 44px); line-height:1.15; letter-spacing:-.04em; }
+    .section-head p { margin:0; color:var(--muted); }
+    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .card { padding:25px; background:linear-gradient(145deg, #142239, #101a2b); border:1px solid var(--line); border-radius:15px; }
+    .card-icon { width:42px; height:42px; display:grid; place-items:center; border-radius:12px; background:#72e0c019; border:1px solid #72e0c033; color:var(--accent); font-size:20px; }
+    .card h3 { margin:19px 0 8px; font-size:18px; letter-spacing:-.02em; }
+    .card p { margin:0; color:var(--muted); font-size:14px; }
+    .architecture { display:grid; grid-template-columns:1fr 1fr; gap:44px; align-items:center; }
+    .diagram { padding:25px; border:1px solid var(--line); border-radius:18px; background:#0c1525; }
+    .diagram-box { text-align:center; padding:16px; border:1px solid #7e9cbe55; border-radius:10px; background:#14233a; font-weight:700; }
+    .diagram-box small { display:block; color:var(--muted); font-weight:400; font-size:12px; margin-top:3px; }
+    .arrow { text-align:center; color:var(--accent); font-size:23px; line-height:1.8; }
+    .diagram-box.highlight { border-color:#72e0c077; background:#112a2b; }
+    .checks { list-style:none; padding:0; margin:24px 0 0; }
+    .checks li { display:flex; gap:12px; margin:14px 0; color:var(--muted); }
+    .checks li::before { content:"✓"; color:var(--accent); font-weight:800; }
+    .use-case { display:flex; gap:15px; align-items:flex-start; }
+    .use-case .num { flex:0 0 34px; height:34px; display:grid; place-items:center; border-radius:9px; color:var(--accent); background:#72e0c018; font-weight:800; }
+    .use-case h3 { margin:0 0 7px; font-size:17px; }
+    .use-case p { margin:0; color:var(--muted); font-size:14px; }
+    .use-grid { display:grid; grid-template-columns:1fr 1fr; gap:28px 38px; }
+    .config { background:#080e18; border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+    .config-head { padding:14px 18px; display:flex; justify-content:space-between; border-bottom:1px solid var(--line); color:var(--muted); font-size:13px; }
+    .config pre { font-size:12px; }
+    .copy { border:1px solid var(--line); background:#15243a; color:var(--text); padding:5px 9px; border-radius:7px; cursor:pointer; font:inherit; }
+    .requirements { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:25px; }
+    .requirement { padding:17px; border:1px solid var(--line); border-radius:11px; color:var(--muted); font-size:13px; }
+    .requirement strong { display:block; color:var(--text); font-size:14px; margin-bottom:4px; }
+    .cta { display:flex; align-items:center; justify-content:space-between; gap:25px; padding:35px; border:1px solid #72e0c044; border-radius:18px; background:linear-gradient(120deg,#112b30,#142139); }
+    .cta h2 { margin:0 0 8px; font-size:clamp(24px,3vw,34px); letter-spacing:-.035em; }
+    .cta p { margin:0; color:var(--muted); }
+    footer { border-top:1px solid var(--line); padding:27px 0; color:#8294ad; font-size:13px; }
+    .footer-inner { display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+    .footer-links { display:flex; gap:18px; }
+    .footer-links a:hover { color:var(--text); }
+    @media (max-width:850px) {
+      .hero, .architecture { grid-template-columns:1fr; }
+      .hero { padding-top:65px; gap:35px; }
+      .terminal { transform:none; }
+      .grid { grid-template-columns:repeat(2,1fr); }
+      .nav-links a:not(.nav-cta) { display:none; }
+    }
+    @media (max-width:560px) {
+      .wrap { width:min(100% - 28px, var(--max)); }
+      .nav { min-height:66px; }
+      .brand { font-size:14px; }
+      .nav-cta { padding:9px 11px; }
+      .hero { padding:55px 0; }
+      .hero-copy { font-size:16px; }
+      section { padding:60px 0; }
+      .grid, .use-grid, .requirements { grid-template-columns:1fr; }
+      .cta { align-items:flex-start; flex-direction:column; padding:25px; }
+      pre { padding:20px 16px; font-size:11px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } *,*::before,*::after { transition:none !important; } }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="#top" aria-label="MCP-MXC home"><span class="brand-mark">M</span><span>MCP-MXC</span></a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#use-cases">Use cases</a>
+        <a href="#setup">Setup</a>
+        <a class="nav-cta" href="https://github.com/saurabhgayali/mxc-mcp-bridge" target="_blank" rel="noreferrer">View on GitHub ↗</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <div class="wrap hero">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> Open-source developer infrastructure</div>
+        <h1>Let AI agents run code.<br><span>Keep execution contained.</span></h1>
+        <p class="hero-copy">MCP-MXC connects AI coding assistants to policy-driven execution containers, so agents can run commands, inspect failures, and iterate on code with explicit limits around access and runtime.</p>
+        <div class="actions">
+          <a class="button primary" href="#setup">Get started <span>→</span></a>
+          <a class="button secondary" href="https://github.com/saurabhgayali/mxc-mcp-bridge" target="_blank" rel="noreferrer">Explore source ↗</a>
+        </div>
+        <div class="meta"><span>Default-deny network access</span><span>Bounded execution time</span><span>Structured results</span></div>
+      </div>
+      <div class="terminal" aria-label="Illustrative example of sandboxed execution">
+        <div class="terminal-top"><span class="traffic"></span><span class="traffic"></span><span class="traffic"></span><span class="terminal-title">agent / sandbox-session</span></div>
+        <pre><span class="comment"># Agent requests a controlled command</span>
+<span class="key">tool</span>: execute_sandboxed_code
+<span class="key">command</span>: <span class="value">"node validate.js"</span>
+<span class="key">timeoutMs</span>: <span class="value">30000</span>
+<span class="key">allowNetwork</span>: <span class="warn">false</span>
+
+<span class="comment"># Structured execution response</span>
+<span class="key">exitCode</span>: <span class="value">0</span>
+<span class="key">timedOut</span>: <span class="value">false</span>
+<span class="key">stdout</span>: <span class="value">"All checks passed."</span>
+<span class="key">stderr</span>: <span class="value">""</span>
+<span class="key">warnings</span>: <span class="value">[]</span>
+
+<span class="comment">// Feedback is ready for the next agent step.</span></pre>
+        <div class="terminal-footer"><span>Illustrative output</span><span class="status">● Policy-controlled run</span></div>
+      </div>
+    </div>
+
+    <div class="trust-strip"><div class="wrap trust-inner">
+      <span><b>Built around MCP</b> <span>Model Context Protocol</span></span>
+      <span><b>Powered by</b> <span>Microsoft MXC SDK</span></span>
+      <span><b>Designed for</b> <span>Least-privilege execution</span></span>
+      <span><b>License</b> <span>MIT</span></span>
+    </div></div>
+
+    <section id="features">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Execution with boundaries</div>
+          <h2>A focused bridge between AI and the operating system.</h2>
+          <p>One MCP tool for command execution, with configurable controls and structured feedback that helps agents debug without giving every run unrestricted host access.</p>
+        </div>
+        <div class="grid">
+          <article class="card"><div class="card-icon">⌁</div><h3>Isolation by default</h3><p>Run commands inside a native execution container rather than directly in the agent's normal process context.</p></article>
+          <article class="card"><div class="card-icon">⏱</div><h3>Bounded runtime</h3><p>Set a timeout from 1 second to 5 minutes to limit runaway commands and long-running tasks.</p></article>
+          <article class="card"><div class="card-icon">⌕</div><h3>Explicit file access</h3><p>Grant read access to additional paths through an allowlist instead of broadly exposing the filesystem.</p></article>
+          <article class="card"><div class="card-icon">⇄</div><h3>Opt-in networking</h3><p>Network access is disabled by default and can be explicitly enabled for tasks that require it.</p></article>
+          <article class="card"><div class="card-icon">{ }</div><h3>Structured feedback</h3><p>Receive exit codes, stdout, stderr, timeout status, warnings, and policy-related output for the next agent step.</p></article>
+          <article class="card"><div class="card-icon">⌘</div><h3>MCP integration</h3><p>Expose the execution tool to compatible AI clients, including supported coding-assistant workflows.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture">
+      <div class="wrap architecture">
+        <div>
+          <div class="section-head">
+            <div class="eyebrow">How it fits together</div>
+            <h2>From agent request to contained execution.</h2>
+            <p>MCP-MXC acts as the tool interface. The MXC SDK and host sandbox provide the execution layer, while the agent receives a structured result it can reason about.</p>
+          </div>
+          <ul class="checks">
+            <li>The agent sends a command and optional execution policies.</li>
+            <li>The MCP server passes the request to the MXC execution engine.</li>
+            <li>The command runs within the available native sandbox backend.</li>
+            <li>Execution details return to the agent for inspection and debugging.</li>
+          </ul>
+        </div>
+        <div class="diagram" role="img" aria-label="Architecture flow from AI agent to MCP-MXC server, MXC execution engine, and native host sandbox">
+          <div class="diagram-box">AI coding assistant<small>Copilot · Claude Desktop · Custom client</small></div>
+          <div class="arrow">↓ <small>MCP / JSON-RPC</small></div>
+          <div class="diagram-box">MCP-MXC server<small>Tool wrapper · Request validation</small></div>
+          <div class="arrow">↓ <small>MXC SDK</small></div>
+          <div class="diagram-box">MXC execution engine</div>
+          <div class="arrow">↓</div>
+          <div class="diagram-box highlight">Native host sandbox<small>Process container / supported backend</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="use-cases">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Where it can help</div>
+          <h2>Useful for agent workflows that execute code.</h2>
+          <p>Use cases enabled by the bridge's controlled execution model.</p>
+        </div>
+        <div class="use-grid">
+          <article class="use-case"><div class="num">01</div><div><h3>Agent-assisted coding and debugging</h3><p>Let an agent run tests or validation commands, inspect the returned errors, and refine its changes through an iterative loop.</p></div></article>
+          <article class="use-case"><div class="num">02</div><div><h3>Third-party scripts and extensions</h3><p>Provide a constrained execution boundary for custom scripts or user-supplied transformations in developer tools.</p></div></article>
+          <article class="use-case"><div class="num">03</div><div><h3>Testing untrusted patches</h3><p>Evaluate code changes with explicit timeout, filesystem, and network policies rather than assuming unrestricted execution.</p></div></article>
+          <article class="use-case"><div class="num">04</div><div><h3>Developer diagnostics</h3><p>Run supported commands and collect consistent stdout, stderr, exit codes, and policy-related failures for investigation.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="setup">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Quick start</div>
+          <h2>Get the project running.</h2>
+          <p>Clone the repository, install dependencies, and build the server. Check the README for platform requirements and the latest setup guidance.</p>
+        </div>
+        <div class="config">
+          <div class="config-head"><span>Terminal · install and build</span><button class="copy" type="button" data-copy="git clone https://github.com/saurabhgayali/mxc-mcp-bridge&#10;cd mxc-mcp-bridge&#10;npm install&#10;npm run build">Copy commands</button></div>
+          <pre><span class="comment"># Clone the repository</span>
+git clone https://github.com/saurabhgayali/mxc-mcp-bridge
+cd mxc-mcp-bridge
+
+<span class="comment"># Install dependencies and compile</span>
+npm install
+npm run build</pre>
+        </div>
+        <div class="requirements">
+          <div class="requirement"><strong>Windows environment</strong>README lists Windows 11 Build 26200 or later.</div>
+          <div class="requirement"><strong>Node.js</strong>Node.js 24+ for MXC SDK compatibility.</div>
+          <div class="requirement"><strong>Verify the backend</strong>Run the included smoke test and policy tests on your target system.</div>
+        </div>
+        <div style="height:34px"></div>
+        <div class="config">
+          <div class="config-head"><span>Claude Desktop · configuration example</span><button class="copy" type="button" data-copy='{&#10;  "mcpServers": {&#10;    "mcp-mxc": {&#10;      "command": "node",&#10;      "args": ["dist/index.js"],&#10;      "cwd": "C:\\\\path\\\\to\\\\mcp-mxc"&#10;    }&#10;  }&#10;}'>Copy JSON</button></div>
+          <pre>{
+  "mcpServers": {
+    "mcp-mxc": {
+      "command": "node",
+      "args": ["dist/index.js"],
+      "cwd": "C:\\path\\to\\mcp-mxc"
+    }
+  }
+}</pre>
+        </div>
+        <p style="color:var(--muted);font-size:13px;margin-top:12px">Replace the example working directory with the actual location of your cloned repository.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="cta">
+          <div><h2>Make code execution a deliberate capability.</h2><p>Explore the implementation, review the policies, and try MCP-MXC in a supported environment.</p></div>
+          <a class="button primary" href="https://github.com/saurabhgayali/mxc-mcp-bridge" target="_blank" rel="noreferrer">View repository ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <span>© <span id="year">2026</span> MCP-MXC · Open source under the MIT License</span>
+      <div class="footer-links"><a href="https://github.com/saurabhgayali/mxc-mcp-bridge" target="_blank" rel="noreferrer">GitHub</a><a href="#setup">Installation</a><a href="#top">Back to top ↑</a></div>
+    </div>
+  </footer>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.querySelectorAll('[data-copy]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const original = button.textContent;
+        const text = button.getAttribute('data-copy').replaceAll('&#10;', '\\n');
+        try {
+          await navigator.clipboard.writeText(text);
+          button.textContent = 'Copied!';
+        } catch {
+          button.textContent = 'Copy unavailable';
+        }
+        window.setTimeout(() => { button.textContent = original; }, 1600);
+      });
+    });
+  </script>
+</body>
+</html>
