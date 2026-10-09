@@ -1,0 +1,35 @@
+{
+  "dependencies": {
+    "@microsoft/mxc-sdk": "^1.0.0"
+  },
+  "name": "mcp-mxc",
+  "version": "1.0.0",
+  "description": "MCP Server for Microsoft eXecution Containers (MXC) - Secure sandboxed code execution",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "@types/node": "^26.6.4",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test:smoke": "tsx src/smoke-test.ts",
+    "test:mcp": "tsx src/test-mcp-client.ts",
+    "test:policy": "tsx src/test-policy-enforcement.ts",
+    "test": "npm run test:smoke && npm run test:mcp && npm run test:policy",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "mcp",
+    "mxc",
+    "sandbox",
+    "execution",
+    "container",
+    "security"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs"
+}
